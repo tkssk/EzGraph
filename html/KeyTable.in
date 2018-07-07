@@ -1,0 +1,168 @@
+<table border=1>
+<tr><th>定義名</th>
+	<th>値</th><th>キー</th></tr>
+<tr><td>EZ_Left</td>
+	<td>0xff51</td><td>Move left, left arrow</td></tr>
+<tr><td>EZ_Up</td>
+	<td>0xff52</td><td>Move up, up arrow</td></tr>
+<tr><td>EZ_Right</td>
+	<td>0xff53</td><td>Move right, right arrow</td></tr>
+<tr><td>EZ_Down</td>
+	<td>0xff54</td><td>Move down, down arrow</td></tr>
+<tr><td>EZ_BackSpace</td>
+	<td>0xff08</td><td>Back space, back char</td></tr>
+<tr><td>EZ_Tab</td>
+	<td>0xff09</td><td>Tab</td></tr>
+<tr><td>EZ_Return</td>
+	<td>0xff0d</td><td>Return, enter</td></tr>
+<tr><td>EZ_Escape</td>
+	<td>0xff1b</td><td>Escape</td></tr>
+<tr><td>EZ_Delete</td>
+	<td>0xffff</td><td>Delete, rubout</td></tr>
+<tr><td>EZ_Home</td>
+	<td>0xff50</td><td>Home</td></tr>
+<tr><td>EZ_Page_Up</td>
+	<td>0xff55</td><td>Page Up</td></tr>
+<tr><td>EZ_Page_Down</td>
+	<td>0xff56</td><td>Page Down</td></tr>
+<tr><td>EZ_Insert</td>
+	<td>0xff63</td><td>Insert, insert here</td></tr>
+<tr><td>EZ_End</td>
+	<td>0xff57</td><td>End</td></tr>
+<tr><td>EZ_KP_Multiply</td>
+	<td>0xffaa</td><td>Numeric Keypad '*'</td></tr>
+<tr><td>EZ_KP_Add</td>
+	<td>0xffab</td><td>Numeric Keypad '+'</td></tr>
+<tr><td>EZ_KP_Separator</td>
+	<td>0xffac</td><td> Separator, often comma</td></tr>
+<tr><td>EZ_KP_Subtract</td>
+	<td>0xffad</td><td>Numeric Keypad '-'</td></tr>
+<tr><td>EZ_KP_Divide</td><td>0xffaf</td>
+	<td>Numeric Keypad '/'</td></tr>
+<tr><td>EZ_KP_0</td><td>0xffb0</td>
+	<td>Numeric Keypad 0</td></tr>
+<tr><td>EZ_KP_1</td><td>0xffb1</td>
+	<td>Numeric Keypad 1</td></tr>
+<tr><td>EZ_KP_2</td><td>0xffb2</td>
+	<td>Numeric Keypad 2</td></tr>
+<tr><td>EZ_KP_3</td><td>0xffb3</td>
+	<td>Numeric Keypad 3</td></tr>
+<tr><td>EZ_KP_4</td><td>0xffb4</td>
+	<td>Numeric Keypad 4</td></tr>
+<tr><td>EZ_KP_5</td><td>0xffb5</td>
+	<td>Numeric Keypad 5</td></tr>
+<tr><td>EZ_KP_6</td><td>0xffb6</td>
+	<td>Numeric Keypad 6</td></tr>
+<tr><td>EZ_KP_7</td><td>0xffb7</td>
+	<td>Numeric Keypad 7</td></tr>
+<tr><td>EZ_KP_8</td><td>0xffb8</td>
+	<td>Numeric Keypad 8</td></tr>
+<tr><td>EZ_KP_9</td><td>0xffb9</td>
+	<td>Numeric Keypad 9</td></tr>
+<tr><td>EZ_KP_Enter</td><td>0xff8d</td>
+	<td>Numeric Keypad Enter</td></tr>
+<tr><td>EZ_F1</td>
+	<td>0xffbe</td><td>F1</td></tr>
+<tr><td>EZ_F2</td>
+	<td>0xffbf</td><td>F2</td></tr>
+<tr><td align="center">:</td>
+	<td align="center">:</td><td align="center">:</td></tr>
+<tr><td>EZ_F12</td>
+	<td>0xffc9</td><td>F12</td></tr>
+<tr><td>EZ_Shift_L</td>
+	<td>0xffe1</td><td>Left shift</td></tr>
+<tr><td>EZ_Shift_R</td>
+	<td>0xffe2</td><td>Right shift</td></tr>
+<tr><td>EZ_Control_L</td>
+	<td>0xffe3</td><td>Left control</td></tr>
+<tr><td>EZ_Control_R</td>
+	<td>0xffe4</td><td>Right control</td></tr>
+<tr><td>EZ_Caps_Lock</td>
+	<td>0xffe5</td><td>Caps lock</td></tr>
+<tr><td>EZ_Shift_Lock</td>
+	<td>0xffe6</td><td>Shift lock</td></tr>
+<tr><td>EZ_Meta_L</td>
+	<td>0xffe7</td><td>Left meta</td></tr>
+<tr><td>EZ_Meta_R</td>
+	<td>0xffe8</td><td>Right meta</td></tr>
+<tr><td>EZ_Alt_L</td>
+	<td>0xffe9</td><td>Left alt</td></tr>
+<tr><td>EZ_Alt_R</td>
+	<td>0xffea</td><td>Right alt</td></tr>
+<tr><td>EZ_space</td>
+	<td>0x0020</td><td>SPACE (0x20)</td></tr>
+<tr><td>EZ_exclam</td>
+	<td>0x0021</td><td>EXCLAMATION MARK (0x21)</td></tr>
+<tr><td>EZ_quotedbl</td>
+	<td>0x0022</td><td>QUOTATION MARK (0x22)</td></tr>
+<tr><td>EZ_numbersign</td>
+	<td>0x0023</td><td>NUMBER SIGN (0x23)</td></tr>
+<tr><td>EZ_dollar</td>
+	<td>0x0024</td><td>DOLLAR SIGN (0x24)</td></tr>
+<tr><td>EZ_percent</td>
+	<td>0x0025</td><td>PERCENT SIGN (0x25)</td></tr>
+<tr><td>EZ_ampersand</td>
+	<td>0x0026</td><td>AMPERSAND (0x26)</td></tr>
+<tr><td>EZ_apostrophe</td>
+	<td>0x0027</td><td>APOSTROPHE (0x27)</td></tr>
+<tr><td>EZ_parenleft</td>
+	<td>0x0028</td><td>LEFT PARENTHESIS (0x28)</td></tr>
+<tr><td>EZ_parenright</td>
+	<td>0x0029</td><td>RIGHT PARENTHESIS (0x29)</td></tr>
+<tr><td>EZ_asterisk</td>
+	<td>0x002a</td><td>ASTERISK (0x2A)</td></tr>
+<tr><td>EZ_plus</td>
+	<td>0x002b</td><td>PLUS SIGN (0x2B)</td></tr>
+<tr><td>EZ_comma</td>
+	<td>0x002c</td><td>COMMA (0x2C)</td></tr>
+<tr><td>EZ_minus</td>
+	<td>0x002d</td><td>HYPHEN-MINUS (0x2D)</td></tr>
+<tr><td>EZ_period</td>
+	<td>0x002e</td><td>FULL STOP (0x2E)</td></tr>
+<tr><td>EZ_slash</td>
+	<td>0x002f</td><td>SOLIDUS (0x2F)</td></tr>
+<tr><td>EZ_0</td>
+	<td>0x0030</td><td>DIGIT ZERO (0x30)</td></tr>
+<tr><td>EZ_1</td>
+	<td>0x0031</td><td>DIGIT ONE (0x31)</td></tr>
+<tr><td align="center">:</td>
+	<td align="center">:</td><td align="center">:</td></tr>
+<tr><td>EZ_9</td>
+	<td>0x0039</td><td>DIGIT NINE (0x39)</td></tr>
+<tr><td>EZ_colon</td>
+	<td>0x003a</td><td>COLON (0x3A)</td></tr>
+<tr><td>EZ_semicolon</td>
+	<td>0x003b</td><td>SEMICOLON (0x3B)</td></tr>
+<tr><td>EZ_less</td>
+	<td>0x003c</td><td>LESS-THAN SIGN (0x3C)</td></tr>
+<tr><td>EZ_equal</td>
+	<td>0x003d</td><td>EQUALS SIGN (0x3D)</td></tr>
+<tr><td>EZ_greater</td>
+	<td>0x003e</td><td>GREATER-THAN SIGN (0x3E)</td></tr>
+<tr><td>EZ_question</td>
+	<td>0x003f</td><td>QUESTION MARK (0x3F)</td></tr>
+<tr><td>EZ_at</td>
+	<td>0x0040</td><td>COMMERCIAL AT (0x40)</td></tr>
+<tr><td>EZ_A</td>
+	<td>0x0041</td><td>LATIN CAPITAL LETTER A (0x41)</td></tr>
+<tr><td>EZ_B</td>
+	<td>0x0042</td><td>LATIN CAPITAL LETTER B (0x42)</td></tr>
+<tr><td align="center">:</td>
+	<td align="center">:</td><td align="center">:</td></tr>
+<tr><td>EZ_Z</td>
+	<td>0x005a</td><td>LATIN CAPITAL LETTER Z (0x5A)</td></tr>
+<tr><td>EZ_bracketleft</td><td>0x005b</td>
+	<td>LEFT SQUARE BRACKE</td></tr>
+<tr><td>EZ_backslash</td><td>0x005c</td>
+	<td>REVERSE SOLIDUS</td></tr>
+<tr><td>EZ_bracketright</td><td>0x005d</td>
+	<td>RIGHT SQUARE BRACKET</td></tr>
+<tr><td>EZ_asciicircum</td><td>0x005e</td>
+	<td>CIRCUMFLEX ACCENT</td></tr>
+<tr><td>EZ_underscore</td><td>0x005f</td>
+	<td>LOW LINE</td></tr>
+<tr><td>EZ_grave</td><td>0x0060</td>
+	<td>GRAVE ACCENT</td></tr>
+<tr><td>EZ_quoteleft</td><td>0x0060</td>
+	<td>Deprecated</td></tr>
+</table>

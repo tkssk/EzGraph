@@ -1,0 +1,17 @@
+#!/bin/csh
+
+set db = "db01.gif db02.gif db03.gif db04.gif db05.gif db06.gif db07.gif db08.gif db09.gif"
+set bk = "bk01.gif bk02.gif bk03.gif bk04.gif"
+set gif = ""
+
+foreach ax ($db)
+	set gif = "$gif $bk"
+	set gif = "$gif $ax"
+	set gif = "$gif $ax"
+	set gif = "$gif $ax"
+	set gif = "$gif $ax"
+	set gif = "$gif $ax"
+	set gif = "$gif $ax"
+end
+convert -loop 0 -delay 10 $gif anm_sb.gif
+convert -loop 0 -delay 100 $db anm_db.gif

@@ -1,0 +1,77 @@
+255 250 250		Snow
+248 248 255		GhostWhite
+245 245 245		WhiteSmoke
+255 250 240		FloralWhite
+250 240 230		Linen
+250 235 215		AntiqueWhite
+255 228 181		Coccasin
+255 248 220		Cornsilk
+255 255 240		Ivory
+255 245 238		Seashell
+245 255 250		MintCream
+240 255 255		Azure
+240 248 255		AliceBlue
+230 230 250		Lavender
+255 228 225		MistyRose
+255 255 255		White
+  0   0   0		Black
+105 105 105		DimGray
+112 128 144		SlateGray
+119 136 153		LightSlateGray
+190 190 190		Gray
+211 211 211		LightGray
+ 25  25 112		MidnightBlue
+  0   0 128		Navy
+106  90 205		SlateBlue
+  0   0 205		MediumBlue
+ 65 105 225		RoyalBlue
+  0   0 255		Blue
+135 206 235		SkyBlue
+135 206 250		LightSkyBlue
+173 216 230		LightBlue
+  0 255 255		Cyan
+127 255 212		Aquamarine
+  0 100   0		DarkGreen
+143 188 143		DarkSeaGreen
+ 46 139  87		SeaGreen
+ 32 178 170		LightSeaGreen
+152 251 152		PaleGreen
+  0 255   0		Green
+173 255  47		GreenYellow
+ 50 205  50		LimeGreen
+154 205  50		YellowGreen
+ 34 139  34		ForestGreen
+107 142  35		OliveDrab
+189 183 107		DarkKhaki
+238 232 170		PaleGoldenrod
+255 255 224		LightYellow
+255 255   0		Yellow
+255 215   0 	Gold
+238 221 130		LightGoldenrod
+184 134  11		DarkGoldenrod
+188 143 143		RosyBrown
+205  92  92		IndianRed
+205 133  63		Peru
+245 245 220		Beige
+245 222 179		Wheat
+210 180 140		Tan
+210 105  30		Chocolate
+165  42  42		Brown
+233 150 122		DarkSalmon
+250 128 114		Salmon
+255 165   0		Orange
+255 140   0		DarkOrange
+255 127  80		Coral
+255  99  71		Tomato
+255  69   0		OrangeRed
+255   0   0		Red
+255 105 180		HotPink
+255  20 147		DeepPink
+255 192 203		Pink
+176  48  96		Maroon
+255   0 255		Magenta
+238 130 238		Violet
+221 160 221		Plum
+218 112 214		Orchid
+160  32 240		Purple
+169 169 169		DarkGray

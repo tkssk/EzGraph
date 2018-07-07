@@ -1,0 +1,8 @@
+1.x:
+	Simple graphic library for Xorg.
+	Source code should be written in EUC-JP.
+2.x:
+	Add Xft and iconf features.
+	Now source code can be written in EUC-JP, SHIFT-JIS or UTF-8.
+	Speficy charactor code by
+		./configure --enable-iconv=EUC-JP (or UTF-8, SHIFT-JIS)

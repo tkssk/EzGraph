@@ -1,0 +1,85 @@
+<!-- ================================================================== -->
+<h2>少し複雑な図形を描写</h2>
+<p>次に、塗りつぶした円や長方形、色を付けた図形の描写方法を
+説明します。
+
+<p>EzGraphには、先程の例に出てきた円を描く?EzDrawCircle?関数以外にも、
+点を描写する?EzDrawPoint?()関数、線を描写するEzDrawLine?()関数、
+長方形を描写する?EzDrawBox?()関数、
+?EzFillBox?()関数、円を描写する?EzDrawBox?()関数、?EzFillBox?()関数等、
+様々な関数があります。EzGraphで利用できる描写関数を知りたい場合は、
+「?機能別一覧:TypeList?</a>」の「描写」の項目を
+参照してみて下さい。
+
+<p>ここでは、もう少し複雑な図形の例として、信号機を描いてみます。
+以下のプログラムを<a href="code/tutorial2.c">tutorial2.c</a>という名前で
+保存し、先程と同じようにコンパイルし、実行してみます。
+<pre class="code">
+#include &lt;EzGraph.h&gt;
+
+int main(){
+    /* Set Color To Gray */
+    EzSetColorByName("Gray");
+
+    /* Fill BOX */
+    EzFillBox(200, 100, 500, 200);
+
+    /* Fill BOX */
+    EzFillBox(500, 100, 510, 500);
+
+    /* Set Color To Blue */
+    EzSetColorByName("Blue");
+
+    /* Fill Circle */
+    EzFillCircle(250, 150, 40);
+
+    /* Set Color To Yellow */
+    EzSetColorByName("Yellow");
+
+    /* Fill Circle */
+    EzFillCircle(350, 150, 40);
+
+    /* Set Color To Red */
+    EzSetColorByName("Red");
+
+    /* Fill Circle */
+    EzFillCircle(450, 150, 40);
+
+    EzEventLoop();
+    return 0;
+}
+</pre>
+tutorial2を実行すると、以下のようなウィンドウが表示されるはずです。
+
+<div class="center">
+<img src="img/tutorial2.gif" alt="tutorial2">
+</div>
+
+<p>プログラムを順に解説していきます。
+まず、最初に?EzSetColorByName?()関数でこれから描写する図形の色を
+指定します。この例では、灰色 (gray) を指定しています。
+指定できる色名は、?色見本:ColorTable?を参考にしてみて下さい。
+なお、色名は大文字小文字の区別はありません。
+
+<p>次に、?EzFillBox?()関数で信号機の本体と柱を描きます。
+?EzFillBox?()関数は、塗りつぶした長方形を描写する関数です。
+次に、信号機のランプを描写します。?EzSetColorByName?()関数で
+色を指定した後、?EzFillCircle?()関数で塗りつぶした円を描きます。
+座標系は、左上が原点 (0, 0) で、横軸が X 軸で右が正、縦軸は Y 軸で
+下が正になります。
+
+<p>このままでは信号機を描写した後、プログラムが終了して
+ウィンドウが閉じてしまうので、最後に?EzEventLoop?関数で
+キーボードの'q'キーかマウスの右ボタンが押されるまで待機します。
+
+<p>
+<h2>チュートリアルの目次</h2>
+<ol>
+<li><a href="TutBasic.html">初歩的な使い方</a>
+<li><a href="TutComp.html">複雑な図形描写</a>
+<li><a href="TutEvent.html">イベントドリブン</a>
+<li><a href="TutDoubleBuf.html">ダブルバッファリング</a>
+<li><a href="TutXPM.html">画像ファイルの表示</a>
+<li><a href="TutKey.html">リアルタイムなキー入力</a>
+<li><a href="TutNet.html">ネットワーク機能</a>
+</ol>

@@ -1,0 +1,48 @@
+#!/usr/bin/perl
+
+@command = ("gcc");
+$uname = `uname`;
+chomp($uname);
+
+if($uname eq "Linux"){
+	$linux = 1;
+}else{
+	$linux = 0;
+}
+
+if(grep(/\.c$/, @ARGV) != ()){
+	push(@command, "-I", "@PREFIX@/include");
+}
+if(grep(/^\-c$/, @ARGV) == ()){
+	push(@command, "-L", "@PREFIX@/lib");
+	if($linux){
+		push(@command, "-Wl,-rpath,@PREFIX@/lib");
+	}else{
+		push(@command, "-R", "@PREFIX@/lib");
+	}
+	push(@command, "-lm");
+}
+
+for($i=0; $i<=$#ARGV; $i++){
+	push(@command, $ARGV[$i]);
+	if($ARGV[$i] =~ /\-L(.+)/){
+		$tmp = $1;
+		if($linux){
+			push(@command, "-Wl,-rpath," . $tmp);
+		}else{
+			push(@command, "-R", $tmp);
+		}
+		next;
+	}
+	if($ARGV[$i] eq "-L" && $#ARGV >= $i+1){
+		$i++;
+		push(@command, $ARGV[$i]);
+		if($linux){
+			push(@command, "-Wl,-rpath," . $ARGV[$i]);
+		}else{
+			push(@command, "-R", $ARGV[$i]);
+		}
+	}
+}
+$ret = system(@command);
+exit($ret >> 8);

@@ -1,0 +1,65 @@
+<!-- ================================================================== -->
+<h2>描写ウィンドウ</h2>
+EzGraphのウインドウは、何も設定しなかった場合は600x600ドットで、
+左上の座標が (0, 0)、右下の座標が (599, 599) になっています（下図参照）。
+また、EzGraph.h において、
+定数EzDefaultWidth、EzDefaultHeightがどちらも 600 に定義されています。
+ウインドウの背景色は黒です。
+EzGraphで定義されている関数については、
+「<a href="TypeList.html">機能別一覧</a>」を参照して下さい。
+
+<div class="center">
+<img src="img/window.gif" alt="Window">
+</div>
+
+<!-- ================================================================== -->
+<h2>簡単な図形描写</h2>
+<p>まずは、簡単な図形を描写しましょう。
+以下のソースコードをエディタで入力し、
+<a href="code/tutorial1.c">tutorial1.c</a>という名前で保存します。
+<pre class="code">
+#include &lt;EzGraph.h&gt;
+
+int main(){
+    EzDrawCircle(300, 300, 300);
+    EzEventLoop();
+}
+</pre>
+
+<p>次に、tutorial1.cをコンパイルしてみましょう。EzGraphを使用する場合は、
+通常のgccではなく、ezccというコマンドを使用します。
+
+<pre class="box">
+ezcc -o tutorial1 tutorial1.c -lEzGraph
+</pre>
+これでtutorial1.cがコンパイルされ、tutorial1という名前の
+実行ファイルができます。もし、ezccが見つからないという旨の
+エラーが表示された場合は、システムの管理者に相談して下さい。
+また、コンパイル時にエラーが出た場合は、ソースコードにミスが
+ある場合が多いので、打ち間違いがないか確認して下さい。
+
+<pre class="box">
+./tutorial1
+</pre>
+上記のようにして、tutorial1を実行すると、下図のようなウィンドウが
+現れるはずです。
+
+<div class="center">
+<img src="img/tutorial1.gif" alt="tutorial1">
+</div>
+
+<p>プログラム中の?EzDrawCircle?()は円を描く関数です。また、?EzEventLoop?()は
+イベント待ちのための関数ですが、今は'q'キーが押されるか、マウスの右ボタンを
+クリックするまで待機する関数だと考えておいて下さい。
+
+<p>
+<h2>チュートリアルの目次</h2>
+<ol>
+<li><a href="TutBasic.html">初歩的な使い方</a>
+<li><a href="TutComp.html">複雑な図形描写</a>
+<li><a href="TutEvent.html">イベントドリブン</a>
+<li><a href="TutDoubleBuf.html">ダブルバッファリング</a>
+<li><a href="TutXPM.html">画像ファイルの表示</a>
+<li><a href="TutKey.html">リアルタイムなキー入力</a>
+<li><a href="TutNet.html">ネットワーク機能</a>
+</ol>

@@ -1,0 +1,634 @@
+### Reference File for EzGraph
+# F Prototype
+# T Type
+# S Simple Descprition
+# D Detailed Descprition
+#   ?key? --> Replaced to hyper link for function description.
+# = New line
+# C Code sample
+
+F void EzOpenWindow(int width, int height);
+T 初期化
+S 指定したサイズでウィンドウを開く
+D width, heightで指定したサイズのウィンドウを開く。この関数は、あらゆる
+D EzGraphライブラリの関数に先だって呼び出される必要がある。
+D この関数を呼ばずに他の描写関数を呼び出した場合は、デフォルトの
+D 大きさのウィンドウが表示される。
+$
+
+F void EzDrawPoint(int x, int y);
+T 描写
+S 点を描写
+D (x, y) 座標に点を描く。
+=
+D 描写色は?EzSetColorByRGB?関数、あるいは?EzSetColorByName?関数で指定する。
+$
+
+F void EzDrawLine(int x1, int y1, int x2, int y2);
+T 描写
+S 線を描写
+D (x1, y1) から (x2, y2) まで直線を描く。
+=
+D 描写色は?EzSetColorByRGB?関数、あるいは?EzSetColorByName?関数で指定する。
+$
+
+F void EzDrawBox(int, int, int, int);
+T 描写
+S 長方形を描写
+D (x1, y1) を左上の端、(x2, y2) を右下の端とする長方形を描く。
+=
+D 描写色は?EzSetColorByRGB?関数、あるいは?EzSetColorByName?関数で指定する。
+$
+
+F void EzFillBox(int, int, int, int);
+T 描写
+S 塗りつぶした長方形を描写
+D (x1, y1) を左上の端、(x2, y2) を右下の端とする塗りつぶした長方形を描く。
+=
+D 描写色は?EzSetColorByRGB?関数、あるいは?EzSetColorByName?関数で指定する。
+$
+
+F void EzDrawCircle(int x, int y, unsigned int r);
+T 描写
+S 正円を描写
+D (x, y) 座標を中心に、半径 r の円を描く。
+=
+D 描写色は?EzSetColorByRGB?関数、あるいは?EzSetColorByName?関数で指定する。
+$
+
+F void EzFillCircle(int x, int y, unsigned int r);
+T 描写
+S 塗りつぶした正円を描写
+D (x, y) 座標を中心に、半径 r の塗りつぶした円を描く。
+=
+D 描写色は?EzSetColorByRGB?関数、あるいは?EzSetColorByName?関数で指定する。
+$
+
+F void EzDrawArc(int x, int y, unsigned int xr, unsigned int ry,
+F int t1, int t2);
+T 描写
+S 円弧を描写
+D (x, y) を中心に、横方向の半径を rx、縦方向の半径を ry、開始角を t1、
+D 終了角を t2とする楕円弧を描く。t1, t2 は度数法による「度」であり、
+D 右方向（X 軸正の方向）を 0 として、半時計回りはかる。
+=
+D 描写色は?EzSetColorByRGB?関数、あるいは?EzSetColorByName?関数で指定する。
+$
+
+F void EzFillArc(int x, int y, unsigned int xr, unsigned int ry,
+F int t1, int t2);
+T 描写
+S 塗りつぶした円弧を描写
+D (x, y) を中心に、横方向の半径を rx、縦方向の半径を ry、開始角を t1、
+D 終了角を t2とする塗りつぶした楕円弧を描く。t1, t2 は度数法による
+D 「度」であり、右方向（X 軸正の方向）を 0 として、半時計回りはかる。
+=
+D 描写色は?EzSetColorByRGB?関数、あるいは?EzSetColorByName?関数で指定する。
+$
+
+F void EzFillPolygon(int num, int *poly);
+T 描写
+S 多角形の塗りつぶし
+D polyで指定する多角形の塗りつぶしをする。polyは整数型の配列で、
+D 先頭から P1 の X 座標、P1 の Y 座標、P2 の X 座標、P2 の Y 座標と続く。
+D 引数 num は poly の要素数の半分、すなわち多角形の頂点の数を指定する。
+D たとえば、(200,200), (400,200), (500,400), (100,400) を頂点とす
+D るような台形を描く場合、以下のようなプログラムになる。
+C int poly[] = {200, 200, 400, 200, 500, 400, 100, 400};
+C
+C EzFillPolygon(4, poly);
+=
+D 描写色は?EzSetColorByRGB?関数、あるいは?EzSetColorByName?関数で指定する。
+$
+
+F void EzDrawString(int x, int y, const char *s);
+T 描写
+S 文字列の描写
+D (x, y) が左下の端になるように、文字列 s を書く。
+D 整形した文字列を描写する場合は、下記のようにsprintf関数と
+D 組み合わせて利用する。日本語を描写する場合は、EUC を使用すること。
+C char buf[128];
+C
+C sprintf(buf, "My name is %s.  I am %d years old.\n", "Tom", 13);
+C EzDrawString(100, 200, buf);
+D 描写色は?EzSetColorByRGB?関数、あるいは?EzSetColorByName?関数で指定する。
+D 表示フォントは?EzSetFont?関数で、フォントサイズは?EzSetFontSize?関数で
+D 指定する。
+$
+
+F void EzClear(void);
+T 消去
+S 画面の消去
+D 画面を消去する。
+$
+
+F void EzDrawPointB(int x, int y);
+T ダブル・バッファリング
+S オフ・スクリーン・バッファに点を描写
+D オフ・スクリーン・バッファに (x, y) 座標に点を描く。
+D 描写する画面がオフ・スクリーン・バッファであること以外は
+D ?EzDrawPoint?と同じ。
+$
+
+F void EzDrawLineB(int x1, int y1, int x2, int y2);
+T ダブル・バッファリング
+S オフ・スクリーン・バッファに線を描写
+D オフ・スクリーン・バッファに (x1, y1) から (x2, y2) まで直線を描く。
+D 描写する画面がオフ・スクリーン・バッファであること以外は
+D ?EzDrawLine?と同じ。
+$
+
+F void EzDrawBoxB(int x1, int y1, int x2, int y2);
+T ダブル・バッファリング
+S オフ・スクリーン・バッファに長方形を描写
+D オフ・スクリーン・バッファに (x1, y1) を左上の端、
+D (x2, y2) を右下の端とする長方形を描く。
+D 描写する画面がオフ・スクリーン・バッファであること以外は
+D ?EzDrawBox?と同じ。
+$
+
+F void EzFillBoxB(int x1, int y1, int x2, int y2);
+T ダブル・バッファリング
+S オフ・スクリーン・バッファに塗りつぶした長方形を描写
+D オフ・スクリーン・バッファに (x1, y1) を左上の端、
+D (x2, y2) を右下の端とする塗りつぶした長方形を描く。
+D 描写する画面がオフ・スクリーン・バッファであること以外は
+D ?EzFillBox?と同じ。
+$
+
+F void EzDrawCircleB(int x, int y, unsigned int r);
+T ダブル・バッファリング
+S オフ・スクリーン・バッファに正円を描写
+D オフ・スクリーン・バッファに (x, y) 座標を中心に、半径 r の円を描く。
+D 描写する画面がオフ・スクリーン・バッファであること以外は
+D ?EzDrawCircle?と同じ。
+$
+
+F void EzFillCircleB(int x, int y, unsigned int r);
+T ダブル・バッファリング
+S オフ・スクリーン・バッファに塗りつぶした正円を描写
+D オフ・スクリーン・バッファに (x, y) 座標を中心に、
+D 半径 r の塗りつぶした円を描く。
+D 描写する画面がオフ・スクリーン・バッファであること以外は
+D ?EzFillCircle?と同じ。
+$
+
+F void EzDrawArcB(int x, int y, unsigned int rx, unsigned int ry,
+F int t1, int t2);
+T ダブル・バッファリング
+S オフ・スクリーン・バッファに円弧を描写
+D オフ・スクリーン・バッファに
+D (x, y) を中心に、横方向の半径を rx、縦方向の半径を ry、開始角を t1、
+D 終了角を t2とする楕円弧を描く。
+D 描写する画面がオフ・スクリーン・バッファであること以外は
+D ?EzDrawArc?と同じ。
+$
+
+F void EzFillArcB(int x, int y, unsigned int rx, unsigned int ry,
+F int t1, int t2);
+T ダブル・バッファリング
+S オフ・スクリーン・バッファに塗りつぶした円弧を描写
+D オフ・スクリーン・バッファに
+D (x, y) を中心に、横方向の半径を rx、縦方向の半径を ry、開始角を t1、
+D 終了角を t2とする塗りつぶした楕円弧を描く。
+D 描写する画面がオフ・スクリーン・バッファであること以外は
+D ?EzFillArc?と同じ。
+$
+
+F void EzFillPolygonB(int num, int *poly);
+T ダブル・バッファリング
+S オフ・スクリーン・バッファに多角形の塗りつぶし
+D オフ・スクリーン・バッファに
+D polyで指定すた頂点がnum個の多角形の塗りつぶしをする。
+D 描写する画面がオフ・スクリーン・バッファであること以外は
+D ?EzFillPolygon?と同じ。
+$
+
+F void EzDrawStringB(int x, int y, const char *s);
+T ダブル・バッファリング
+S オフ・スクリーン・バッファに文字列の描写
+D オフ・スクリーン・バッファの
+D (x, y) が左下の端になるように、文字列 s を書く。
+D 描写する画面がオフ・スクリーン・バッファであること以外は
+D ?EzDrawString?と同じ。
+$
+
+F void EzShowBuffer(void);
+T ダブル・バッファリング
+S オフ・スクリーン・バッファを表示
+D オフ・スクリーン・バッファの内容を表示する。この関数を呼び出すと、
+D オフ・スクリーン・バッファは黒で初期化される。
+$
+
+F int EzSetColorByRGB(unsigned short r, unsigned short g, unsigned short b);
+T 初級
+S 描写色をRGBで指定
+D 描写色を赤 (Red) 緑 (Green) 青 (Blue) の三原色で指定する。
+D 各要素は、0〜255で指定する。
+=
+D 色見本は?色見本:ColorTable?をクリックすると色のサンプルが表示される。
+$
+
+F int EzSetColorByName(const char *name);
+T 初級
+S 描写色を色名で指定
+D 描写色を色名で指定する。色名は、大文字・小文字の区別はない。
+=
+D 色見本は?色見本:ColorTable?をクリックすると色のサンプルが表示される。
+$
+
+F int EzSetFont(const char *font_name);
+T 設定
+S フォント名を指定
+D ?EzDrawString?関数で描写する文字列のフォントを指定する。
+D フォント名は、FreeTypeで使用できるものを指定する。
+D 使用できるフォント名は、fc-listコマンドで確認できる。
+C EzSetFont("serif");
+$
+
+F int EzSetFontSize(double font_size);
+T 設定
+S フォントサイズを指定
+D ?EzDrawString?関数で描写する文字列のフォントサイズを指定する。
+$
+
+F void EzSetMouseHandler(EzMouseHandler handler);
+T イベント処理
+S マウスのボタン・イベント・ハンドラを登録
+D マウスのボタンが押された時に呼び出す関数を指定する。
+D NULLを指定すると、ハンドラが無効化される。
+D マウス・イベント用ハンドラは以下のように定義する。
+C void mouse_event(int x, int y, unsigned int n){
+C   printf("(x, y) = (%d, %d) : button=%d\n", x, y, n);
+C }
+C
+C int main(){
+C   EzSetMouseHandler(mouse_event);
+C   EzEventLoop();
+C   return 0;
+C }
+$
+
+F void EzSetMouseReleaseHandler(EzMouseHandler handler);
+T イベント処理
+S マウス・ボタンのリリース・イベント・ハンドラを登録
+D マウスのボタンが離された時に呼び出す関数を指定する。
+D NULLを指定すると、ハンドラが無効化される。
+D イベントハンドラの定義方法は?EzSetMouseHandler?関数を参照。
+$
+
+F void EzSetMouseMotionHandler(EzMouseMotionHandler handler);
+T イベント処理
+S マウスのモーション（ドラッグ）・ハンドラを登録
+D マウスのボタンを押したまま移動（ドラッグ）時に呼び出す
+D 関数を指定する。NULLを指定すると、ハンドラが無効化される。
+D マウス・モーション用ハンドラは以下のように定義する。
+C void mouse_motion_event(int x, int y){
+C   printf("(x, y) = (%d, %d)\n", x, y);
+C }
+C
+C int main(){
+C   EzSetMouseMotionHandler(mouse_motion_event);
+C   EzEventLoop();
+C   return 0;
+C }
+$
+
+F void EzSetKeyHandler(EzKeyHandler handler);
+T イベント処理
+S キーボード・イベント・ハンドラを登録
+D キーボードが押された時に呼び出される関数を指定する。
+D NULLを指定すると、ハンドラが無効化される。
+D マウス・イベント用ハンドラは以下のように定義する。
+C void key_event(int n){
+C   printf("Push '%c' (0x%02x) key\n", n, n);
+C }
+C
+C int main(){
+C   EzSetKeyHandler(key_event);
+C   EzEventLoop();
+C   return 0;
+C }
+D 通常の英数字キー以外に、?キーテーブル:KeyTable?で定義されている
+D EZ_Left, EZ_Up, EZ_Right, EZ_Downキーのイベント取得が可能である。
+=
+D キーボード・イベント・ハンドラには押された文字が渡される。
+D 例えば、シフトキーを押しながら A のキーを押した場合は 'A' が、
+D シフトキーを離した状態で A のキーを押した場合は 'a' を受け取る。
+D カーソルキー以外の特殊キーを受け取る場合は、上記のプログラムで
+D どのような文字コードが渡されるか確認した上で使用すること。
+$
+
+F void EzSetKeyReleaseHandler(EzKeyHandler handler);
+T イベント処理
+S キーボードのリリース・イベント・ハンドラを登録
+D キーボードが離された時に呼び出す関数を指定する。
+D NULLを指定すると、ハンドラが無効化される。
+D イベントハンドラの定義方法は?EzSetKeyHandler?関数を参照。
+$
+
+F void EzSetTimerHandler(EzTimerHandler handler, unsigned long ms);
+T イベント処理
+S タイマー・イベント・ハンドラを登録
+D 周期タイマーのイベントを登録する。
+D 本関数でイベント・ハンドラを登録し、?EzEventLoop?関数を
+D 呼び出すと、msミリ秒後にhandlerで指定した関数が呼び出される。
+D タイマーイベントは周期関数であり、msミリ秒毎に呼び出される。
+D NULLを指定すると、ハンドラが無効化される。
+D 具体的なコード例は以下を参考にすること。
+C int sec = 0;
+C void timer_event(void){
+C   sec++;
+C   printf("%d sec\n", sec);
+C }
+C
+C int main(){
+C   EzSetTimerHandler(timer_event, 1000); /* Every 1sec */
+C   EzEventLoop();
+C }
+$
+
+F void EzEventLoop(void);
+T イベント処理
+S イベント待ち関数
+D ?EzSetKeyHandler?関数等のイベント登録関数を呼び出した後に、
+D 本関数を呼び出すと、イベント待ちの状態になる。本関数は、
+D イベントハンドラ内で?EzExitEventLoop?関数を呼び出さない
+D 限りは永久に終らない。
+=
+D 本関数をネストして呼び出すことはできない。もし、イベント
+D ハンドラ内等から二重に呼んだ場合は
+D "Can not call EzEventLoop() function in an event handler function."
+D というエラーを表示して強制終了する。
+$
+
+F long EzGetTimeLeft(void);
+T イベント処理
+S タイマーの残り時間を取得
+D 次のタイマーイベント発生までの残り時間を取得する。通常は
+D タイマーイベントハンドラ内で、次のタイマーイベントまでに
+D 処理が終るかを判定するために使用する。
+D 戻り値は次のタイマーイベント発生までの時間で単位はミリ秒。
+D 戻り値が負の場合は、次のタイマーイベントの発生時刻を越えている
+D ことを意味する。
+=
+D 各種イベントハンドラ内でこの関数の戻り値を調べながら、適宜
+D 処理を軽減することで処理落ちを回避することができる。
+$
+
+F void EzExitEventLoop(void);
+T イベント処理
+S イベント待ち関数を強制終了
+D ?EzEventLoop?関数を終了させる。
+$
+
+F int EzQueryKeymap(char keys[32]);
+T 上級者用
+S キーボードの状態をリアルタイムで取得。
+D 現在のキーボードの状態を取得する。具体的には、
+D XQueryKeymap関数へのラッピング関数。使用方法は、
+D 後述の?EzIsKeyPress?関数を参照すること。
+$
+
+F int EzIsKeyPress(char key[32], int code);
+T 上級者用
+S 現在、キーボードの特定のキーが押されているか判断
+D ?EzQueryKeymap?関数で取得したキーボードの状態から、
+D 特定のキーが押されているかを判定する。キーが押されて
+D いた場合は真を返す。
+C int main(){
+C   char keys[32];
+C   while(1){
+C     EzQueryKeymap(keys);
+C     if(EzIsKeyPress(keys, EZ_Up)) puts("上キーが押されてます");
+C     if(EzIsKeyPress(keys, EZ_Down)) puts("下キーが押されています");
+C     if(EzIsKeyPress(keys, EZ_Shift_L)) puts("左シフトが押されています");
+C     if(EzIsKeyPress(keys, EZ_Shift_R)) puts("右シフトが押されています");
+C   }
+C }
+D 上記は説明のためwhile(1)のループ内で使用しているが、このコードでは
+D 他のタイマーイベントハンドラやキーボードイベントハンドラが動作
+D しなくなってしまう。そのため、通常はタイマーハンドラ内などから
+D 呼び出すことを想定している。具体的な使い方についてはチュートリアルを
+D 参照すること。
+D 定義されているキーコードは、?キーテーブル:KeyTable?を参照すること。
+$
+
+F EzImage EzReadXPM(char **xpm_data);
+T 画像ファイル表示
+S XPMファイルの読み込み
+D XPMファイルを読み込み、X11システムで使用できるように変換する。
+D XPMファイルは透過色もサポートしており、本関数と後述の
+D ?EzPut?関数を利用することで、キャラクターの張り付けを
+D 容易に実現できる。
+D なお、XPMファイルはテキストファイルであり、C言語の
+D サブセット構造となっている。本関数でXPMファイルを
+D 読み込む場合、Cのソースファイル内でXPMをインクルートする
+D 必要があるので注意すること。また、XPMの変数名は、
+D 作成するツールによって異なるので注意すること。
+D 具体的なコード例は、後述の?EzPut?関数を参照すること。
+$
+
+F void EzPut(int x, int y, EzImage image);
+T 画像ファイル表示
+S XPM画像の表示
+D ?EzReadXPM?関数で読み込んだ画像 image を左上座標(x,y)に表示する。
+D 具体的には、以下のサンプルを参考にすること。
+C #include "car.xpm"
+C
+C int main(){
+C   EzImage img;
+C
+C   img = EzReadXPM(car);
+C   EzPut(100, 100, img);
+C   EzEventLoop();
+C }
+D 上記コードの、carの部分は、car.xpmを参照し、
+D static char *XXXX[] = のXXXX部分に読み変えること。
+$
+
+F void EzPutB(int x, int y, EzImage image);
+T 画像ファイル表示
+S XPM画像のオフ・スクリーン・バッファへの描写
+D ?EzReadXPM?関数で読み込んだ画像をオフ・スクリーン・バッファへ
+D 描写する。
+=
+D 描写する画面がオフ・スクリーン・バッファであること以外は
+D ?EzPut?と同じ。
+$
+
+F void EzSetMML(const char *mml);
+T 上級者用
+S 演奏する譜面（MML形式）を登録する
+D 演奏する譜面データ（MML形式）を登録する。内部で譜面データの
+D コピーを作成するので、登録後にmmlの内容を変更、あるいは破棄しても
+D 問題ない。また、別の曲を登録する場合は、古い譜面データは内部で
+D 破棄されるので、メモリ解放等を考慮する必要はない。
+D MMLの書き方については、?MMLの書き方:MML?を参照すること。
+C const char *kirakira_bosi =
+C     "CCGGAAG2"
+C     "GGFFEED2"
+C     "GGFFEED2"
+C     "CCGGAAG2"
+C     "FFEEDDC2";
+$
+
+F void EzPlayMML(void);
+T 上級者用
+S MMLを再生する
+D ?EzSetMML?で登録した譜面を再生する。演奏終了後は自動的に
+D リピート再生される。なお、この関数は再生を開始した後、
+D すぐに呼出元に戻ってくる（演奏はバックグラウンドで行われる）。
+$
+
+F void EzStopMML(void);
+T 上級者用
+S MMLの再生を停止する
+D ?EzPlayMML?で再生中の演奏を停止する。停止後に再び?EzPlayMML?を
+D 呼び出した場合は、曲の始めから演奏開始する。
+$
+
+F int EzListen(unsigned int port);
+T ネットワーク
+S ネットワーク接続を待ち受ける
+D ポート番号を指定してクライアントからの接続を待ち受ける。
+D 関数の呼び出しが完了したとき、期待したポートで待ち受け状態にあるなら
+D 非0が、そうでなければ0が返る。
+D 接続されるクライアントがEzGraphを使用したプログラムである必要はない。
+=
+D ライブラリの仕様で、同時に二つ以上のポートで接続を待ち受けることはできない。
+D すでに接続待ち受け状態にあるとき、EzListenの呼び出しは何も起こさない。
+D 指定したポートで待ち受け状態にあるなら呼び出しは非ゼロを返す。
+=
+D UNIX/Linux では、1023番以前のポート番号を使用するにはroot権限が必要。
+D また、同時に二つのプロセスが同じポートで接続を待ち受けることはできない。
+C #define PORT 6002
+C
+C void receive_event(FILE* connection){
+C   char buf[BUF_MAX];
+C   fgets(buf, BUF_MAX, connection);
+C   printf("message: %s\n", buf);
+C }
+C
+C int main(){
+C   EzSetReceiveHandler(receive_event);
+C   EzListen(PORT);
+C   EzEventLoop();
+C   return 0;
+C }
+$
+
+F FILE* EzConnect(const char* address, unsigned int port);
+T ネットワーク
+S 待ち受けているサーバーに接続する
+D ?EzListen?関数を呼んで接続を待ち受けているプログラムに、アドレスとポートを指定して
+D クライアントとして接続する。
+=
+D 接続そのものはファイルの形で返る。このファイルへの書き込み操作は接続相手への
+D メッセージの送信である。
+=
+D アドレスが不正である、接続相手の使用ポートが閉じられている、相手が接続待ち受け状態にない
+D などの理由で接続に失敗したとき、NULLが返る。
+C FILE* server;
+C int main(){
+C   EzSetReceiveHandler(receive_event);
+C   server = EzConnect("localhost", PORT);
+C   if(server == NULL){
+C     puts("cannot connect to server");
+C     EzSetAcceptHandler(accept_event);
+C     EzListen(PORT);
+C     puts("I AM SERVER NOW");
+C   }
+C   EzEventLoop();
+C   return 0;
+C }
+=
+D なお、接続相手がEzGraphを使ったプログラムである必要はない
+C int main(){
+C   char buf[8192];
+C   FILE* webserver = EzConnect("example.com", 80);
+C   fprintf(webserver, "GET /index.html HTTP/1.0\n\n");
+C   while(fgets(buf, 8192, webserver))
+C     printf("%s", buf);
+C   return 0;
+C }
+$
+
+F void EzListenClose(void);
+T ネットワーク
+S ネットワーク接続の待ち受けを閉じる
+D クライアントを待ち受けている接続を閉じる。
+D すでに確立している接続は切断されないが、新しいクライアントの接続を受けることはなくなる。
+=
+D EzListenCloseの呼び出しの後、新たに?EzListen?関数を呼んで新しく接続を待ち受けることができ、
+D それは別のポートに対してであっても構わない。
+C #define PORT 6002
+C
+C void accept_event(FILE* connection){
+C   puts("先着一名様ご案内");
+C   EzListenClose();
+C }
+C
+C int main(){
+C   EzSetAcceptHandler(accept_event);
+C   EzListen(PORT);
+C   EzEventLoop();
+C   return 0;
+C }
+$
+
+F void EzSetAcceptHandler(EzConnectHandler handler);
+T イベント処理
+S ネットワークの接続受け入れのイベント・ハンドラを登録
+D クライアントからの新しい接続を受け入れた時に呼び出す関数を指定する。
+D NULLを指定すると、ハンドラが無効化される。
+D Accept(接続受け入れ)イベント用ハンドラは以下のように定義する。
+C void accept_event(FILE* connection){
+C   puts("new connection");
+C }
+C
+C int main(){
+C   EzSetAcceptHandler(accept_event);
+C   EzListen(PORT);
+C   EzEventLoop();
+C   return 0;
+C }
+$
+
+F void EzSetConnectionCloseHandler(EzConnectHandler handler);
+T イベント処理
+S ネットワークの接続切断イベント・ハンドラを登録
+D 現在の接続のどれかが切断された時に呼び出す関数を指定する。
+D NULLを指定すると、ハンドラが無効化される。
+D 接続切断イベント用ハンドラは以下のように定義する。
+C void close_event(FILE* connection){
+C   puts("connection closed");
+C }
+C
+C int main(){
+C   EzSetConnectionCloseHandler(close_event);
+C   EzListen(PORT);
+C   EzEventLoop();
+C   return 0;
+C }
+$
+
+F void EzSetReceiveHandler(EzConnectHandler handler);
+T イベント処理
+S メッセージ受け取りイベント・ハンドラを登録
+D 開いている接続が読み取り可能になった時に呼び出される関数を指定する。
+D NULLを指定すると、ハンドラが無効化される。
+D メッセージ受け取りイベント用ハンドラは以下のように定義する。
+C void receive_event(FILE* connection){
+C   char buf[BUF_MAX];
+C   fgets(buf, BUF_MAX, connection);
+C   printf("message: %s\n", buf);
+C }
+C
+C int main(){
+C   EzSetReceiveHandler(receive_event);
+C   EzListen(PORT);
+C   EzEventLoop();
+C   return 0;
+C }
+$

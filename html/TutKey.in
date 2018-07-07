@@ -1,0 +1,70 @@
+<!-- ================================================================== -->
+<h2>リアルタイムなキー入力とは</h2>
+<p>EzGraphはイベントドリブン型のプログラミングモデルをサポートしているため、
+通常、キー入力はイベントハンドラを介して取得する。しかし、一部の
+プログラムでは、今現在押されているキーボードの状態を取得したい、
+あるいは同時に押されている複数のキーの状態を取得したい場合も少なからずある。
+
+<p>そこで、EzGraphでは、現在押されているキーボードを取得するための関数群を
+用意している。
+
+<h2>プログラム例</h2>
+<p>リアルタイムなキー入力取得関数は、同時に押されている複数のキー状態を
+取得することができる。そのため、getchar()関数のように、押されている
+キーの文字コードが単純に戻り値になるのではなく、
+<ol>
+<li>キーボードの状態を取得する
+<li>あるキー（例えば、シフトキー）が押されているか判定する
+</ol>
+という流れになる。複数のキー判定を行いたい場合は、必要な数だけ
+2.の処理を行う。
+
+<p>以下に簡単な例を示す。
+<pre class="code">
+#include &lt;EzGraph.h&gt;
+
+int x = 300, y = 300;
+
+void timer_event(void){
+    char keys[32];
+
+    EzQueryKeymap(keys);
+    if(EzIsKeyPress(keys, EZ_Up)){
+	y--;
+    }
+    if(EzIsKeyPress(keys, EZ_Down)){
+	y++;
+    }
+    if(EzIsKeyPress(keys, EZ_Right)){
+	x++;
+    }
+    if(EzIsKeyPress(keys, EZ_Left)){
+	x--;
+    }
+    EzFillCircleB(x, y, 10);
+    EzShowBuffer();
+}
+
+int main(){
+    EzSetTimerHandler(timer_event, 40);
+    EzEventLoop();
+}
+</pre>
+このプログラムを実行すると、タイマーイベントにより、40ms毎に
+timer_handler()関数が呼び出される。この時、カーソルキーの上が
+押されていれば●が上に、下が押されていれば下に、右が押されていれば右に、
+左が押されていれば左に移動する。また、上キーと右キーを同時に押すと、
+右上に移動する。ただし、キーの組み合わせによっては、同時押し判定を
+できない場合があるので注意すること。
+
+<p>
+<h2>チュートリアルの目次</h2>
+<ol>
+<li><a href="TutBasic.html">初歩的な使い方</a>
+<li><a href="TutComp.html">複雑な図形描写</a>
+<li><a href="TutEvent.html">イベントドリブン</a>
+<li><a href="TutDoubleBuf.html">ダブルバッファリング</a>
+<li><a href="TutXPM.html">画像ファイルの表示</a>
+<li><a href="TutKey.html">リアルタイムなキー入力</a>
+<li><a href="TutNet.html">ネットワーク機能</a>
+</ol>

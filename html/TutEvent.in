@@ -1,0 +1,164 @@
+<h2>イベントドリブンとは？</h2>
+<p>一般的に、テキストベースのプログラム (CUI; Character User Interface) では、
+以下のようにscanf()関数やgets()関数を用いてキーボードからの入力を
+受け付けていました。
+
+<pre class="code">
+#include &lt;stdio.h&gt;
+
+int main()
+  char name[128];
+
+  printf("What is your name?\n");
+  scanf("%s", name);
+  printf("You are %s.\n", name);
+  return 0;
+}
+</pre>
+
+<p>しかし、グラフィカルなプログラム (GUI; Graphical User Interface) では、
+取り扱う入力がキーボードだけではなく、マウスの入力も同時に扱う必要が
+あります。また、上記の例では、キーボード入力があるまでscanf()関数で
+待ち続けますが、一般的に GUI プログラムでは、入力の有無に関わらず
+プログラムの進行を止めたくない場合が多々あります。
+
+<p>例えば、テトリスを作る場合、キーボード入力がなくても、
+一定時間が経過したらブロックを落下させる必要があります。
+そのため、GUIプログラムでは、一般的にイベントドリブンという考え方に
+基づいてプログラムを設計します。
+
+<h2>マウスイベント</h2>
+<p>イベントドリブンとは、scanf()関数やgets()関数のように入力が
+あるまで待ち続けるのではなく、入力（イベント）が発生したら
+あらかじめ決めておいた関数を呼び出してもらうというプログラミング
+スタイルです。
+
+<p>以下にEzGraphを用いた簡単な例を示します。
+
+<pre class="code">
+#include &lt;stdio.h&gt;
+#include &lt;EzGraph.h&gt;
+
+/* マウスが押された時に呼び出してもらう関数 */
+void MouseEvent(int x, int y, unsigned int n){
+  printf("座標 (%d, %d) で第 %u ボタンがクリックされました\n", x, y, n);
+}
+
+int main(){
+  /* マウスが押された時に呼び出してもらう関数を登録する */
+  EzSetMouseHandler(MouseEvent);
+
+  /* イベントが発生するまで待ち続ける */
+  EzEventLoop();
+}
+</pre>
+
+<p>上記プログラムをコンパイルし、実行すると真っ黒いウィンドウが出てきますので、
+ウィンドウ内の適当な場所をクリックしてみてください。
+するとプログラムを起動した端末に、クリックした座標と押されたボタン番号が
+表示され、クリックした場所に円が描かれたはずです。
+円の大きさは、押したボタンにより変化します。
+
+<h2>キーボードイベント</h2>
+今度は上記プログラムにキーボードイベントを追加してみましょう。
+<pre class="code">
+#include &lt;stdio.h&gt;
+#include &lt;EzGraph.h&gt;
+
+/* マウスが押された時に呼び出してもらう関数 */
+void MouseEvent(int x, int y, unsigned int n){
+  printf("座標 (%d, %d) で第 %u ボタンがクリックされました\n", x, y, n);
+  EzDrawCircle(x, y, 10*n);
+}
+
+<em>/* キーが押された時に呼び出してもらう関数 */
+void KeyEvent(int key){
+  printf("キー (%c) が押されました\n", key);
+}</em>
+
+int main(){
+  /* マウスが押された時に呼び出してもらう関数を登録する */
+  EzSetMouseHandler(MouseEvent);
+
+  <em>/* キーが押された時に呼び出してもらう関数を登録する */
+  EzSetKeyHandler(KeyEvent);</em>
+
+  /* イベントが発生するまで待ち続ける */
+  EzEventLoop();
+}
+</pre>
+
+<h2>タイマーイベント</h2>
+<p>今度は上記プログラムにタイマーイベントを追加してみましょう。
+タイマーイベントとは、一定時間が経過した時に発生する周期イベントです。
+キー入力がなかった場合のタイムアウトやユーザーの入力とは無関係に
+実行したい処理がある場合に利用します。
+ここでは、0.1秒毎にウィンドウの中心の円が大きくなる機能を付けてみましょう。
+
+<pre class="code">
+#include &lt;stdio.h&gt;
+#include &lt;time.h&gt;
+#include &lt;EzGraph.h&gt;
+
+<em>int circle_r = 0;</em>
+
+/* マウスが押された時に呼び出してもらう関数 */
+void MouseEvent(int x, int y, unsigned int n){
+  printf("座標 (%d, %d) で第 %u ボタンがクリックされました\n", x, y, n);
+  <em>/*TimerEvent()関数により描写色を変更されるため再設定 */
+  EzSetColorByName("White");</em>
+  EzDrawCircle(x, y, 10*n);
+}
+
+/* キーが押された時に呼び出してもらう関数 */
+void KeyEvent(int key){
+  printf("キー (%c) が押されました\n", key);
+}
+
+<em>/* 0.1秒毎に呼び出してもらう関数 */
+void TimerEvent(void){
+  circle_r++;
+  if(circle_r > 200){
+    /* 円の半径が200になったら、タイマーを停止 */
+    EzSetTimerHandler(NULL, 0);
+  }
+  EzSetColorByName("Cyan");
+  EzDrawCircle(300, 300, circle_r);
+}</em>
+
+int main(){
+  /* マウスが押された時に呼び出してもらう関数を登録する */
+  EzSetMouseHandler(MouseEvent);
+
+  /* キーが押された時に呼び出してもらう関数を登録する */
+  EzSetKeyHandler(KeyEvent);
+
+  <em>/* 0.1秒毎に呼び出してもらう関数を登録する */
+  EzSetTimerHandler(TimerEvent, 100);</em>
+
+  /* イベントが発生するまで待ち続ける */
+  EzEventLoop();
+}
+</pre>
+
+<p>このプログラムでは、0.1秒経過する毎に、?EzEventLoop?()関数の
+中からTimerEvent()関数が呼び出されます。円が大きくなっている間に
+キーボードやマウスを操作し、入力が受け付けられていることを確認して
+みて下さい。
+
+<p>タイマーイベントは周期イベントなので、一定時間が経過する度に
+呼び出されます。もし、途中でタイマーイベントを停止したい場合は、
+上のサンプルプログラムの様にイベントハンドラとしてNULLを登録
+して下さい。
+
+<p>
+<h2>チュートリアルの目次</h2>
+<ol>
+<li><a href="TutBasic.html">初歩的な使い方</a>
+<li><a href="TutComp.html">複雑な図形描写</a>
+<li><a href="TutEvent.html">イベントドリブン</a>
+<li><a href="TutDoubleBuf.html">ダブルバッファリング</a>
+<li><a href="TutXPM.html">画像ファイルの表示</a>
+<li><a href="TutKey.html">リアルタイムなキー入力</a>
+<li><a href="TutNet.html">ネットワーク機能</a>
+</ol>

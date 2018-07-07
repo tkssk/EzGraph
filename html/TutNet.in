@@ -1,0 +1,228 @@
+<h2>ネットワーク機能について</h2>
+<p>他のプロセスとの通信が発生するとき、必ずしも相手がすぐに応答してくれるとは限りません。
+  相手からのメッセージを待ち受けつつ、ユーザーの入力に対処し、画面を更新したり内部処理をしたい場合がほとんどでしょう。</p>
+
+<p>そこで、EzGraphでは<a href="TutEvent.html">イベントドリブン</a>のプログラミングスタイルにのっとってネットワークを用いた通信を行います。</p>
+
+<h2 id="server_and_client">サーバーとクライアント</h2>
+<p>接続を待ち受ける側をサーバー、サーバーに接続しに行く側をクライアントと呼びます。</p>
+
+<p>最初に接続を待ち受けることを言うのであって、いったん確立した接続にメッセージを送るのはどちらの側からでもよいです。</p>
+
+<p>以下に、サーバー側で接続を待ち受ける例を示します</p>
+
+<pre class="code">
+  EzSetAcceptHandler(accept_handler);   /* 接続受け入れイベント */
+  EzListen(PORT);                       /* 接続をPORT番のポートで待ち受ける */</pre>
+
+<p>クライアント側で接続しに行くコード例</p>
+<pre class="code">
+  /* server_address で動作して、PORT番のポートで
+     接続を待ち受けているサーバーに接続する */
+  server = EzConnect(server_address, PORT);
+</pre>
+<h2 id="network_events">ネットワーク機能のイベントについて</h2>
+<h3 id="accept_event">Accept(接続受け入れ)イベント</h3>
+<p><a href="EzListen.html">EzListen</a>関数を用いて接続を待ち受けるとき、新しいクライアントからの接続があると発生するイベントです。<a href="EzSetAcceptHandler.html">EzSetAcceptHandler</a>()関数を使ってイベント・ハンドラを登録していないと接続を受理しません。</p>
+
+<p>クライアントを、FILE* で表される接続で取り扱います。こちらから相手にむけてメッセージを送りたい場合は、FILE* を変数に持っておいてください。</p>
+
+<p>接続を受け入れたときの処理の例</p>
+<pre class="code">
+void accept_handler(FILE* client) {
+  /* クライアントのリストに登録 */
+  add_new_client(client);
+}</pre>
+
+<p>新しい接続があったことの通知がイベントになっているため、
+  サーバーはクライアントからの新しい接続を待ちながら、その間に画面を描画して
+  クライアントのリストを表示したり、ユーザーの操作を処理したり、既に接続している
+  クライアントと通信したりできます。</p>
+<h3 id="receive_event">Receive(受信)イベント</h3>
+<p>EzGraphでは通信相手との接続を FILE* として扱いますが、もし何もメッセージが
+  送られていないときにはfgets()関数やfscanf()関数などはメッセージを
+  受信するまでプログラムの進行をそこで止めてしまいます(ブロッキング)。</p>
+
+<p>そこで、ある確立した接続について読み取れるメッセージが届いたら
+  受信イベントが発生するので、そこではじめてメッセージを読みにいく
+  ようにします。</p>
+<pre class="code">
+void receive_handler(FILE* client) { /* メッセージを受信したとき */
+  int i;
+  char buf[BUF_MAX];
+  fgets(buf, BUF_MAX, client);  /* fgets関数で取得 */
+  for (i = 0; i &lt; CLIENT_MAX; i++) { /* 全クライアントに対して */
+    if (clients[i] == NULL) continue;
+    fprintf(clients[i], &quot;%s&quot;, buf); /* メッセージをそのまま送信 */
+  }
+}</pre>
+
+<h3 id="connection_close_event">ConnectionClose(切断)イベント</h3>
+<p>通信相手との接続が切れたあと、次のタイマーイベントまでに発生するイベントです。</p>
+<p>たくさんの相手と同時に通信する場合には通信相手のリストから切断された相手を
+  削除する必要があるでしょうし、接続が無二のもので切断されたらもはやプログラムを
+  動かしている意味がないならイベントループを抜けたいでしょう。</p>
+<p>実際には、イベントの発生前に通信の切断が起こっていて、相手からのメッセージを
+  読み取る途中で失敗することがあるので、fgets()関数やfscanf()関数などの 戻り値をきちんと確かめることを強く推奨します。</p>
+<pre class="code">
+/* 接続が閉じたとき呼ばれる */
+void close_handler(FILE* server) {
+  puts(&quot;server closed&quot;);
+  EzExitEventLoop();            /* プログラム終了 */
+}</pre>
+<h2 id="samples">サンプルプログラム</h2>
+<h3 id="server_code">サーバー側のサンプル</h3>
+<a href="code/chat_server.c">chat_server.c</a>
+<pre class="code">
+#include &lt;EzGraph.h&gt;
+#include &lt;stdio.h&gt;
+
+#define PORT 6002
+#define BUF_MAX 8192
+#define CLIENT_MAX 32
+
+FILE* clients[CLIENT_MAX];
+
+void add_new_client(FILE* client) {
+  int i;
+  for (i = 0; i &lt; CLIENT_MAX; i++) {
+    if (clients[i] == NULL) {
+      clients[i] = client;
+      return;
+    }
+  }
+}
+
+void remove_client(FILE* client) {
+  int i;
+  for (i = 0; i &lt; CLIENT_MAX; i++) {
+    if (clients[i] == client) {
+      clients[i] = NULL;
+      break;
+    }
+  }
+}
+
+void receive_handler(FILE* client) { /* メッセージを受信したとき */
+  int i;
+  char buf[BUF_MAX];
+  fgets(buf, BUF_MAX, client);  /* fgets関数で取得 */
+  for (i = 0; i &lt; CLIENT_MAX; i++) { /* 全クライアントに対して */
+    if (clients[i] == NULL) continue;
+    fprintf(clients[i], &quot;%s&quot;, buf); /* メッセージをそのまま送信 */
+  }
+}
+
+void close_handler(FILE* client) {
+  /* クライアントのリストから削除 */
+  remove_client(client);
+}
+
+void accept_handler(FILE* client) {
+  /* クライアントのリストに登録 */
+  add_new_client(client);
+}
+
+int main(void) {
+  EzSetAcceptHandler(accept_handler); /* 接続受け入れイベント */
+  EzSetReceiveHandler(receive_handler); /* メッセージ受信イベント */
+  EzSetConnectionCloseHandler(close_handler); /* 切断イベント */
+  EzListen(PORT);               /* 接続をPORT番のポートで待ち受ける */
+  EzEventLoop();
+  return 0;
+}</pre>
+<h3 id="client_code">クライアント側のサンプル</h3>
+<a href="code/chat_server.c">chat_client.c</a>
+<pre class="code">
+#include &lt;EzGraph.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;ctype.h&gt;
+
+#define PORT 6002
+#define BUF_MAX 8192
+#define LINES 64
+#define CHARS 80
+
+FILE *server;
+int ring_first = 0, str_index;
+char *name, texts[LINES][CHARS], unsend_string[BUF_MAX];
+
+void draw(void) {
+  int i;
+  for (i = 0; i &lt; LINES; i++) {
+    EzDrawStringB(0, (i + 2.5) * 16, texts[(i + ring_first + 1) % LINES]);
+  }
+  EzDrawStringB(0, 16, unsend_string);
+  EzShowBuffer();
+}
+
+void receive_handler(FILE* server) { /* メッセージを受け取ったとき */
+  int i;
+  char buf[BUF_MAX];
+  fgets(buf, BUF_MAX, server);  /* fgets関数で一行取得 */
+  for (i = 0; (buf[i] != &#39;\n&#39;) &amp;&amp; (i &lt; CHARS-1); i++)
+    texts[ring_first][i] = buf[i]; /* CHARS 文字ぶんコピー */
+  texts[ring_first][i] = &#39;\0&#39;;
+  ring_first = (LINES + ring_first - 1) % LINES;
+  draw();
+}
+
+void key_handler(int key) {
+  switch (key) {
+  case 0x0d: /* Return */
+    /* server に unsend_string を送信 */
+    fprintf(server, &quot;%s: %s\n&quot;, name, unsend_string);
+  case 0x1b: /* Escape */
+    str_index = 0;
+    break;
+  case 0x08: /* BackSpace */
+    if (str_index &gt; 0) str_index--;
+    break;
+  case 0xffe1: /* Shift */
+	break;
+  default:
+    if (isascii(key))
+      unsend_string[str_index++] = key;
+  }
+  unsend_string[str_index] = &#39;\0&#39;;
+  draw();
+}
+
+/* 接続が閉じたとき呼ばれる */
+void close_handler(FILE* server) {
+  puts(&quot;server closed&quot;);
+  EzExitEventLoop();            /* プログラム終了 */
+}
+
+int main(int argc, char *argv[]) {
+  char *server_address;
+  if (argc &lt; 3) return 1;
+  name = argv[1];
+  server_address = argv[2];
+  EzSetReceiveHandler(receive_handler);
+  EzSetConnectionCloseHandler(close_handler);
+  EzSetKeyHandler(key_handler);
+  /* server_address で動作して、PORT番のポートで
+     接続を待ち受けているサーバーに接続する */
+  server = EzConnect(server_address, PORT);
+  /* もしサーバーが見つからなかったりなどしたら終了 */
+  if (server == NULL) return 1;
+  EzEventLoop();
+  return 0;
+}</pre>
+<address>
+  Yuki DOI<br>
+  E-mail: 413834 at m.mie-u.ac.jp
+</address>
+
+<p>
+<h2>チュートリアルの目次</h2>
+<ol>
+<li><a href="TutBasic.html">初歩的な使い方</a>
+<li><a href="TutComp.html">複雑な図形描写</a>
+<li><a href="TutEvent.html">イベントドリブン</a>
+<li><a href="TutDoubleBuf.html">ダブルバッファリング</a>
+<li><a href="TutXPM.html">画像ファイルの表示</a>
+<li><a href="TutKey.html">リアルタイムなキー入力</a>
+<li><a href="TutNet.html">ネットワーク機能</a>
+</ol>
